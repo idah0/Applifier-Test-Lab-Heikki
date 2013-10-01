@@ -1,0 +1,51 @@
+@color-blue: #0076a3;
+@main-width: 743px;
+
+body {
+	background: @color-blue url(images/background.jpg) 50% 0 no-repeat;
+	color: white;
+	font-family: arial;
+}
+
+#container {
+	width: @main-width;
+	margin: 0 auto;
+	position: relative;
+}
+
+#header {
+	width: @main-width;
+	margin: 0 auto;
+}
+
+#productlist {
+	margin-left: 230px;
+	a {
+		float: left;
+		margin: 10px;
+		color: white;
+		text-decoration: none;
+	}
+}
+
+#product_info {
+	width: 500px;
+	position: absolute;
+	left: 120px;
+	top: 220px;
+	text-align: center;
+}
+
+#prod_name {
+	font-size: 20px;
+	margin-bottom: 20px;
+	text-transform: uppercase;
+}
+
+#prod_price {
+	width: 500px;
+	height: 57px;
+	font-size: 40px;
+	background: url(images/price_bg.png) 50% 0 no-repeat;
+	padding-top: 6px;
+}
