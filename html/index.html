@@ -1,0 +1,76 @@
+<html>
+ <head>
+  <title>Applifier Test Lab</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script language="JavaScript" type="text/javascript">
+   var products = [
+      {name: 'Rubber Duck', price: '19.99', img: 'http://s3.evcdn.com/images/block/I0-001/010/729/258-1.jpeg_/rubber-duck-races-58.jpeg'},
+      {name: 'Flashlight', price: '29.50', img: 'http://icons.iconarchive.com/icons/fasticon/ifunny-vol-2/128/flashlight-icon.png'},
+      {name: 'Duct Tape', price: '3.99', img: 'http://s7g3.scene7.com/is/image/ae235/?wid=128&hei=128&op_sharpen=1&layer=0&size=128,128&layer=1&size=128,128&src=ae235/81035_P'}
+   ];
+// Simple JavaScript Templating
+// John Resig - http://ejohn.org/ - MIT Licensed
+(function(){
+
+
+  var cache = {};
+ 
+  this.tmpl = function tmpl(str, data){
+    // Figure out if we're getting a template, or if we need to
+    // load the template - and be sure to cache the result.
+    var fn = !/\W/.test(str) ?
+      cache[str] = cache[str] ||
+        tmpl(document.getElementById(str).innerHTML) :
+     
+      // Generate a reusable function that will serve as a template
+      // generator (and which will be cached).
+      new Function("obj",
+        "var p=[],print=function(){p.push.apply(p,arguments);};" +
+       
+        // Introduce the data as local variables using with(){}
+        "with(obj){p.push('" +
+       
+        // Convert the template into pure JavaScript
+        str
+          .replace(/[\r\t\n]/g, " ")
+          .split("<%").join("\t")
+          .replace(/((^|%>)[^\t]*)'/g, "$1\r")
+          .replace(/\t=(.*?)%>/g, "',$1,'")
+          .split("\t").join("');")
+          .split("%>").join("p.push('")
+          .split("\r").join("\\'")
+      + "');}return p.join('');");
+   
+    // Provide some basic currying to the user
+    return data ? fn( data ) : fn;
+  };
+})();
+  $(document).ready(function() {
+  for(var i in products) {
+    $('#productlist').append($('<div/>')
+  		.attr('class', 'product')
+  		.append($('<a/>').attr('href','#').attr('data-id',i).html(products[i].name).click(function() {
+			var product = products[$(this).data('id')];
+			$('#product_info').html(tmpl('product_template', product))
+  		}))
+  	);
+  }
+});
+</script>
+<script type="text/javascript" id="product_template">
+	<div class="product_detail">
+ 		<div class="product_name"><%=(name)%></div>
+		<div class="product_price"><%=(price)%></div>
+		<div class="product_img"><img src="<%=(img)%>"></div>
+	</div>
+</script>
+</head>
+<body>
+
+<div id="productlist">
+</div>
+<div id="product_info">
+</div>
+
+</body>
+</html>
